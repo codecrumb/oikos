@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Copy, Check, LogOut } from 'lucide-react'
+import { Copy, Check, LogOut, Mail } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
 
@@ -17,6 +17,9 @@ export default function Settings() {
   const [copied, setCopied] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviting, setInviting] = useState(false)
+  const [inviteStatus, setInviteStatus] = useState(null) // 'sent' | 'error' | null
 
   useEffect(() => {
     if (!member?.household_id) return
@@ -48,6 +51,36 @@ export default function Settings() {
     navigator.clipboard.writeText(member.household_id)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  async function handleInvite(e) {
+    e.preventDefault()
+    if (!inviteEmail.trim()) return
+    setInviting(true)
+    setInviteStatus(null)
+
+    const { data: { session: s } } = await supabase.auth.getSession()
+    const res = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/invite-member`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${s.access_token}`,
+        },
+        body: JSON.stringify({ email: inviteEmail.trim() }),
+      }
+    )
+
+    const json = await res.json()
+    setInviting(false)
+    if (res.ok) {
+      setInviteStatus('sent')
+      setInviteEmail('')
+      setTimeout(() => setInviteStatus(null), 4000)
+    } else {
+      setInviteStatus(json.error ?? 'Something went wrong')
+    }
   }
 
   return (
@@ -131,6 +164,37 @@ export default function Settings() {
               Share this ID with family members so they can join your household.
             </span>
           </div>
+
+          {/* Invite by email — admin only */}
+          {member.role === 'admin' && (
+            <div style={{ marginTop: 16 }}>
+              <h3 className="section-title" style={{ marginBottom: 8 }}>Invite by email</h3>
+              <form onSubmit={handleInvite} style={{ display: 'flex', gap: 8 }}>
+                <input
+                  className="input"
+                  type="email"
+                  value={inviteEmail}
+                  onChange={e => setInviteEmail(e.target.value)}
+                  placeholder="family@example.com"
+                  required
+                  autoComplete="off"
+                />
+                <button type="submit" className="btn btn--primary" disabled={inviting} style={{ flexShrink: 0 }}>
+                  {inviting ? '…' : <><Mail size={16} aria-hidden /> Send</>}
+                </button>
+              </form>
+              {inviteStatus === 'sent' && (
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-success, #16a34a)', marginTop: 6 }}>
+                  Invite sent — they'll get an email with a link to join.
+                </p>
+              )}
+              {inviteStatus && inviteStatus !== 'sent' && (
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-danger)', marginTop: 6 }}>
+                  {inviteStatus}
+                </p>
+              )}
+            </div>
+          )}
 
           <h3 className="section-title" style={{ marginTop: 16, marginBottom: 8 }}>Members</h3>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
