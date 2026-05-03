@@ -42,7 +42,9 @@ export default function SignIn() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              autoComplete="email"
+              autoComplete="username"
+              autoCapitalize="none"
+              autoCorrect="off"
               autoFocus
             />
           </div>

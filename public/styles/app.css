@@ -188,7 +188,7 @@
   background: var(--color-surface);
   color: var(--color-text);
   font-family: inherit;
-  font-size: var(--text-sm);
+  font-size: max(16px, var(--text-sm)); /* 16px minimum prevents iOS Safari auto-zoom on focus */
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   box-sizing: border-box;
 }

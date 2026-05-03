@@ -1,10 +1,6 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git *)",
-      "Bash(gh *)",
-      "Bash(npm *)",
-      "Bash(node *)",
       "Bash(ls *)",
       "Bash(find *)",
       "Bash(grep *)",
