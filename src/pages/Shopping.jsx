@@ -44,32 +44,45 @@ export default function Shopping() {
     const name = newName.trim()
     if (!name) return
 
-    await supabase.from('shopping_items').insert({
+    const optimistic = {
+      id: crypto.randomUUID(),
       household_id: householdId,
       added_by: member.id,
       name,
       quantity: newQty.trim() || null,
-    })
-
+      checked: false,
+      created_at: new Date().toISOString(),
+      _optimistic: true,
+    }
+    setItems(prev => [...prev, optimistic])
     setNewName('')
     setNewQty('')
     inputRef.current?.focus()
+
+    const { data } = await supabase.from('shopping_items').insert({
+      household_id: householdId,
+      added_by: member.id,
+      name: optimistic.name,
+      quantity: optimistic.quantity,
+    }).select().single()
+
+    if (data) setItems(prev => prev.map(i => i._optimistic && i.name === optimistic.name ? data : i))
   }
 
   async function toggleChecked(item) {
-    await supabase
-      .from('shopping_items')
-      .update({ checked: !item.checked })
-      .eq('id', item.id)
+    setItems(prev => prev.map(i => i.id === item.id ? { ...i, checked: !i.checked } : i))
+    await supabase.from('shopping_items').update({ checked: !item.checked }).eq('id', item.id)
   }
 
   async function deleteItem(id) {
+    setItems(prev => prev.filter(i => i.id !== id))
     await supabase.from('shopping_items').delete().eq('id', id)
   }
 
   async function clearChecked() {
     const checkedIds = items.filter(i => i.checked).map(i => i.id)
     if (checkedIds.length === 0) return
+    setItems(prev => prev.filter(i => !i.checked))
     await supabase.from('shopping_items').delete().in('id', checkedIds)
   }
 

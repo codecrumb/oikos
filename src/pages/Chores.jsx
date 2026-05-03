@@ -71,26 +71,42 @@ export default function Chores() {
     e.preventDefault()
     if (!form.title.trim()) return
 
-    await supabase.from('chores').insert({
+    const assignee = members.find(m => m.id === form.assigned_to) ?? null
+    const optimistic = {
+      id: crypto.randomUUID(),
       household_id: householdId,
       title: form.title.trim(),
       assigned_to: form.assigned_to || null,
       due_date: form.due_date || null,
       recurrence: form.recurrence || null,
-    })
-
+      completed_at: null,
+      created_at: new Date().toISOString(),
+      assignee,
+      _optimistic: true,
+    }
+    setChores(prev => [optimistic, ...prev])
     setForm({ title: '', assigned_to: '', due_date: '', recurrence: '' })
     setShowForm(false)
+
+    const { data } = await supabase.from('chores').insert({
+      household_id: householdId,
+      title: optimistic.title,
+      assigned_to: optimistic.assigned_to,
+      due_date: optimistic.due_date,
+      recurrence: optimistic.recurrence,
+    }).select('*, assignee:members(id, display_name, avatar_color)').single()
+
+    if (data) setChores(prev => prev.map(c => c._optimistic && c.title === optimistic.title ? data : c))
   }
 
   async function toggleComplete(chore) {
-    await supabase
-      .from('chores')
-      .update({ completed_at: chore.completed_at ? null : new Date().toISOString() })
-      .eq('id', chore.id)
+    const completed_at = chore.completed_at ? null : new Date().toISOString()
+    setChores(prev => prev.map(c => c.id === chore.id ? { ...c, completed_at } : c))
+    await supabase.from('chores').update({ completed_at }).eq('id', chore.id)
   }
 
   async function deleteChore(id) {
+    setChores(prev => prev.filter(c => c.id !== id))
     await supabase.from('chores').delete().eq('id', id)
   }
 
