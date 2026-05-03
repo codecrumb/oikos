@@ -1,49 +1,33 @@
 {
   "name": "oikos",
-  "version": "0.41.0",
-  "description": "Self-hosted family planner - calendar, tasks, shopping, meal planning, budget and more. Private, open-source, no subscription.",
-  "main": "server/index.js",
+  "version": "0.42.0",
+  "description": "Self-hosted family planner — Vite + React + Supabase",
   "type": "module",
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
-    "start": "node --import dotenv/config server/index.js",
-    "dev": "node --import dotenv/config --watch server/index.js",
-    "setup": "node --import dotenv/config setup.js",
-    "test:db": "node --experimental-sqlite test-db.js",
-    "test:dashboard": "node --experimental-sqlite test-dashboard.js",
-    "test:tasks": "node --experimental-sqlite test-tasks.js",
-    "test:shopping": "node --experimental-sqlite test-shopping.js",
-    "test:meals": "node --experimental-sqlite test-meals.js",
-    "test:calendar": "node --experimental-sqlite test-calendar.js",
-    "test:ncb": "node --experimental-sqlite test-notes-contacts-budget.js",
-    "test:ux-utils": "node test-ux-utils.js",
-    "test:modal-utils": "node --loader ./test-browser-loader.mjs test-modal-utils.js",
-    "test:kitchen-tabs": "node --loader ./test-browser-loader.mjs test-kitchen-tabs.js",
-    "test:reminders": "node --experimental-sqlite test-reminders.js",
-    "test:api": "node test-api.js",
-    "test:setup": "node test-setup.js",
-    "test:ics-parser": "node test-ics-parser.js",
-    "test:ics-sub": "node --experimental-sqlite test-ics-subscription.js",
-    "test": "node --experimental-sqlite test-db.js && node --experimental-sqlite test-dashboard.js && node --experimental-sqlite test-tasks.js && node --experimental-sqlite test-shopping.js && node --experimental-sqlite test-meals.js && node --experimental-sqlite test-calendar.js && node --experimental-sqlite test-notes-contacts-budget.js && npm run test:ux-utils && npm run test:modal-utils && npm run test:reminders && npm run test:api && npm run test:ics-parser && npm run test:ics-sub && npm run test:setup && npm run test:kitchen-tabs"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server:start": "node --import dotenv/config server/index.js",
+    "server:dev": "node --import dotenv/config --watch server/index.js",
+    "setup": "node --import dotenv/config setup.js"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "better-sqlite3": "^12.9.0",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "express-rate-limit": "^8.4.1",
-    "express-session": "^1.19.0",
-    "helmet": "^8.1.0",
-    "node-fetch": "^3.3.2"
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@supabase/supabase-js": "^2.47.10",
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
   },
-  "optionalDependencies": {
-    "googleapis": "^171.4.0",
-    "tsdav": "^2.1.8"
-  },
-  "license": "MIT",
   "devDependencies": {
-    "sharp": "^0.34.5"
-  }
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.3"
+  },
+  "license": "MIT"
 }
