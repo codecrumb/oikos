@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard'
 import Chores from './pages/Chores'
 import Shopping from './pages/Shopping'
 import CalendarPage from './pages/CalendarPage'
+import Settings from './pages/Settings'
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="chores" element={<Chores />} />
             <Route path="shopping" element={<Shopping />} />
             <Route path="calendar" element={<CalendarPage />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

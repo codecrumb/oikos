@@ -1,11 +1,12 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { LayoutDashboard, CheckSquare, ShoppingCart, Calendar } from 'lucide-react'
+import { LayoutDashboard, CheckSquare, ShoppingCart, Calendar, Settings } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { to: '/',         label: 'Dashboard', Icon: LayoutDashboard, exact: true },
-  { to: '/chores',   label: 'Chores',    Icon: CheckSquare },
-  { to: '/shopping', label: 'Shopping',  Icon: ShoppingCart },
-  { to: '/calendar', label: 'Calendar',  Icon: Calendar },
+  { to: '/',          label: 'Dashboard', Icon: LayoutDashboard, exact: true },
+  { to: '/chores',    label: 'Chores',    Icon: CheckSquare },
+  { to: '/shopping',  label: 'Shopping',  Icon: ShoppingCart },
+  { to: '/calendar',  label: 'Calendar',  Icon: Calendar },
+  { to: '/settings',  label: 'Settings',  Icon: Settings },
 ]
 
 function NavItems() {
