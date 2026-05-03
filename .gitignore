@@ -51,4 +51,3 @@ docs/repo-audit-*.md
 # Text files with tokens/keys (safety net)
 *.txt
 !public/robots.txt
-CLAUDE.md
