@@ -1,129 +1,64 @@
 <div align="center">
-  <img src="docs/logo.svg" alt="Oikos" width="120" />
   <h1>Oikos</h1>
-  <p><strong>Self-hosted family planner for small households</strong></p>
+  <p><strong>Private family dashboard — installable PWA for your household</strong></p>
 
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"></a>
-  <a href="https://github.com/ulsklyc/oikos/releases"><img src="https://img.shields.io/github/v/release/ulsklyc/oikos?style=flat-square&color=007AFF&label=release" alt="Latest Release"></a>
-  <a href="https://github.com/ulsklyc/oikos/pkgs/container/oikos"><img src="https://img.shields.io/badge/ghcr.io-oikos-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker Image"></a>
-  <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%E2%89%A522-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"></a>
-  <a href="https://github.com/ulsklyc/oikos/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome"></a>
+  <img src="https://img.shields.io/badge/Vite-React-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite + React">
+  <img src="https://img.shields.io/badge/Supabase-Auth%20%2B%20DB-3ECF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/Cloudflare-Pages-F38020?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Pages">
+  <a href="https://deepwiki.com/codecrumb/oikos"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
 </div>
 
 <br>
 
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/mobile-dark/mobile-dark-dashboard-2.png">
-        <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/mobile-light/mobile-light-dashboard-2.png">
-        <img src="docs/screenshots/mobile-light/mobile-light-dashboard-2.png" alt="Dashboard" width="240">
-      </picture>
-    </td>
-    <td align="center" width="33%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/mobile-dark/mobile-dark-tasks-2.png">
-        <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/mobile-light/mobile-light-tasks-2.png">
-        <img src="docs/screenshots/mobile-light/mobile-light-tasks-2.png" alt="Tasks" width="240">
-      </picture>
-    </td>
-    <td align="center" width="33%">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="docs/screenshots/mobile-dark/mobile-dark-meal.png">
-        <source media="(prefers-color-scheme: light)" srcset="docs/screenshots/mobile-light/mobile-light-meal.png">
-        <img src="docs/screenshots/mobile-light/mobile-light-meal.png" alt="Meals" width="240">
-      </picture>
-    </td>
-  </tr>
-</table>
-
-<p align="center"><sub>Toggle GitHub light/dark mode to see both themes.</sub></p>
-
-Oikos is a self-hosted web app for families who want to organize their everyday life in one place — without cloud accounts, subscriptions, or data leaving the house. It runs as a Docker container on any home server or NAS, is accessible from every device in the household, and can be installed as a PWA on phones and tablets.
-
-The goal is a single, private place for everything that keeps a household running: shared tasks, grocery lists, meal plans, a family calendar, budgets, and more. Each module is independent — use what fits, ignore what doesn't.
+Oikos is a self-hosted family planner built as a PWA. Fork it, connect your own Supabase project and Cloudflare Pages deployment, and you have a private dashboard for your household — no subscriptions, no shared servers, your data stays in your own database.
 
 ## Features
 
 | Module | Description |
-|---|---|
-| **Tasks** | Shared tasks with deadlines, priorities, subtasks, and recurring schedules. Kanban board with touch-friendly one-tap status buttons. Archive completed tasks to keep lists clean. Inline reminder presets (15 min to 2 weeks before due). |
-| **Shopping Lists** | Collaborative lists organized by aisle. Import ingredients from meal plans in one click. |
-| **Meal Planning** | Weekly drag-and-drop planner. Export ingredient lists directly to your shopping list. |
-| **Recipes** | Create, duplicate, and scale reusable recipes. Pre-fill meal slots from a recipe or save any meal as a recipe. |
-| **Calendar** | Two-way sync with Google Calendar (OAuth) and Apple iCloud (CalDAV). Subscribe to any public ICS/webcal URL with per-subscription color and visibility. Overlapping timed events render side-by-side. Events support file attachments (images, PDFs, Office documents). |
-| **Documents** | Upload and manage family files (PDF, images, Office documents up to 5 MB). Grid/list view, drag-and-drop upload, 14 category tags (medical, school, identity, finance, and more), per-document visibility (family, selected members, private), archive and download. |
-| **Budget** | Track income and expenses with recurring entries, monthly trends, and CSV export. 35 predefined categories plus custom ones. Supports 15 currencies. Loans tab for instalment-based loan tracking with per-payment history and automatic paid-off detection. |
-| **Notes & Contacts** | Colored sticky notes with Markdown support. Contact directory with vCard import/export. |
-| **Birthdays** | Birthday tracker with automatic annual calendar events, age display, profile photos, and 1-day-before reminders. |
-| **Reminders** | Time-based reminders on tasks and calendar events. In-app notification badge. |
-| **Family** | Assign family roles, profile pictures, phone, email, and birthday per member. Family details are automatically synced to Contacts and Birthdays. |
-| **API Tokens** | Named Bearer / X-API-Key tokens for external integrations. SHA-256-hashed at rest, with optional expiry. OpenAPI 3.0 spec at `/api/v1/openapi.json`. |
-| **Backup** | Admin-only database backup and restore via the Settings UI. Download a snapshot or restore from a file upload with an automatic pre-restore rollback copy. |
+|--------|-------------|
+| **Chores** | Assign tasks to household members with due dates, overdue highlighting, and recurrence |
+| **Shopping list** | Shared list with real-time sync across all devices |
+| **Calendar** | Family calendar with drag-and-drop event management |
+| **Household** | Invite family members by email, manage roles, colour-coded avatars |
 
-## Design & Technology
+Everything syncs in real time via Supabase Realtime — changes on one device appear instantly on all others.
 
-- **Liquid Glass UI** — translucent surfaces, backdrop blur, module-tinted overlays, spring animations — inspired by Apple's Liquid Glass, built in pure CSS
-- **PWA** — installable on any device, works offline, dark mode, responsive from phone to desktop
-- **Privacy First** — SQLCipher AES-256 encrypted database, fully self-hosted, zero telemetry
-- **Zero Build Step** — pure ES modules, no bundler, no transpiler, no framework
-- **Multilingual** — 15 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk)
+## Stack
 
-## Quick Start
+| Layer | Tech |
+|-------|------|
+| Frontend | Vite 6 + React 18 + React Router |
+| Auth + Database + Realtime | Supabase |
+| Deployment | Cloudflare Pages |
+| Invite emails | Supabase Edge Functions |
 
-**Option A — Web Installer (recommended)**
+## Deploy your own
 
-```bash
-git clone https://github.com/ulsklyc/oikos.git && cd oikos
-node tools/installer/install-server.js
-```
+See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step guide. The short version:
 
-Open **http://localhost:8090** in your browser. The wizard configures your `.env`, starts Docker, and creates your admin account. Requires Node.js 18+ on the host.
+1. Fork this repo
+2. Create a Supabase project and run `supabase/setup.sql` in the SQL editor
+3. Connect the fork to Cloudflare Pages with two env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`)
+4. Deploy the invite Edge Function
+5. Sign up, name your household, invite your family
 
-**Option B — Pre-built image (no clone required)**
+Total setup time: ~15 minutes. Free tier on both Supabase and Cloudflare Pages covers a typical household easily.
+
+## Running locally
 
 ```bash
-curl -O https://raw.githubusercontent.com/ulsklyc/oikos/main/docker-compose.yml
-curl -O https://raw.githubusercontent.com/ulsklyc/oikos/main/.env.example
-cp .env.example .env          # set SESSION_SECRET and DB_ENCRYPTION_KEY
-docker compose up -d
-docker compose exec oikos node setup.js
+git clone https://github.com/your-username/oikos
+cd oikos
+cp .env.example .env   # fill in your Supabase credentials
+npm install
+npm run dev            # http://localhost:5173
 ```
 
-**Option C — Build from source**
+## Security
 
-```bash
-git clone https://github.com/ulsklyc/oikos.git && cd oikos
-cp .env.example .env          # set SESSION_SECRET and DB_ENCRYPTION_KEY
-docker compose up -d --build
-docker compose exec oikos node setup.js
-```
-
-Open `http://localhost:3000` and sign in with the admin credentials you created above.
-
-> **New to Docker?** The **[Installation Guide](docs/installation.md)** covers Docker setup, HTTPS, backups, and troubleshooting step by step.
-
-## Tech Stack
-
-<p>
-  <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express">
-  <img src="https://img.shields.io/badge/SQLite%20%2F%20SQLCipher-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
-  <img src="https://img.shields.io/badge/Vanilla_JS_(ES_Modules)-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="Vanilla JS">
-  <img src="https://img.shields.io/badge/Plain_CSS-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS">
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/PWA-5A0FC8?style=flat-square&logo=pwa&logoColor=white" alt="PWA">
-</p>
-
-## Documentation
-
-| [Installation](docs/installation.md) | [Spec & Data Model](docs/SPEC.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) | [Backlog](BACKLOG.md) |
-|---|---|---|---|---|---|
+Each deployment is fully isolated — your household's data never touches anyone else's database. Row-level security policies on every table ensure users can only access their own household's data even if the anon key is exposed. See [DEPLOY.md](DEPLOY.md) for the full security model.
 
 ## License
 
-<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT License"></a>
-
-<div align="center">
-  <sub>Built with care for families who value privacy and simplicity.</sub>
-</div>
+MIT — see [LICENSE](LICENSE).
