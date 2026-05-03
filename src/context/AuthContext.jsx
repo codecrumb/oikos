@@ -18,6 +18,7 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       if (session) {
+        setMember(undefined) // reset to loading so ProtectedRoute waits
         loadMember(session.user.id)
       } else {
         setMember(null)
