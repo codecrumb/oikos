@@ -28,7 +28,9 @@ No server to manage. Free tier covers a typical household easily.
 
 ## Step 2 — Cloudflare Pages
 
-1. Go to **Cloudflare Dashboard → Workers & Pages → Create → Pages**
+> **New to Cloudflare Pages?** See this [step-by-step guide with screenshots](https://gist.github.com/codecrumb/8df2e30628bf9c089779598cd218b574) for the full walkthrough.
+
+1. Go to **Cloudflare Dashboard → Workers & Pages → Create → Pages** (or [click here](https://dash.cloudflare.com/?to=/:account/pages/new/provider/github))
 2. Connect your GitHub fork
 3. Configure the build:
 
